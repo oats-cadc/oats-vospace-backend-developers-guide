@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "oats_vospace-backend_devel_guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-software_description">
+	<title>Software description</title>
+
+<para>
+This software implements CADC interface 
+ca/nrc/cadc/vos/server/transfers/TransferGenerator.java
+which means substantially imlements the function
+List&lt;URL&gt; getURLs(VOSURI target, Protocol protocol, View view, Job job, List&lt;Parameter&gt; additionalParams)
+throws FileNotFoundException, TransientException;
+
+the function return, in the most generale case, a list of 
+URLs to access data for the given transfer request information.
+In the current implementation, a single URL is returned built as
+Service-base-URL-/OSURI of data to access/signature/jobid
+ 
+</para>
+
+
+<section id="sec-development_tree">
+	<title>Development tree</title>
+
+<mediaobject>
+<imageobject>
+        <imagedata fileref="./images/devel_tree.png"  format="PNG" />
+</imageobject>
+</mediaobject>
+
+</section>
+	
+
+<section id="sec-plug-in_architecture">
+	<title>Plug-in architecture</title>
+
+<para>
+The swap between different storage base implementations 
+is realized using a plugin factory.
+</para>
+<para>
+Steps to realize a plugin factory:
+</para>
+<orderedlist>
+<listitem>
+<para>
+    define a Java interface for the methods whose implementation 
+has to be swapped.
+</para>
+<para>
+The oats-vospace-backend implementation minimizes the 
+code to write to add a new storage method using an
+interface with only two functions: one to store the data
+and one to retrieve the data. All the common management work
+is performed in an abstract class implementing the public 
+interface.
+A new storage supporting object must implement the interface 
+and extend the abstract class.
+</para>
+</listitem>
+<listitem>
+<para>
+    define the concrete implementation(s) of that interface.
+</para>
+<para>
+In the current implementation of oats-vospace-backend is available
+a file system posix based storage implemented in the class
+<command>it.inaf.oats.vospacebackend.implementation.VOSpaceBackPosix</command>
+</para>
+</listitem>    
+<listitem>
+<para> 
+    create a plugin factory class with a method to return one of 
+the concrete implementations, as defined by a configuration setting.
+</para>
+<para>
+In oats-vospace-backend, the configuration is defined in the file
+<command>VOSpace.properties</command> where the parameter
+<command>it.inaf.oats.vospacebackend.implementation.VOSpaceBackendImpl</command>
+defines the concrete inmlementation to be used (for example <command>
+it.inaf.oats.vospacebackend.implementation.VOSpaceBackPosix</command>).
+The file must be located in the subdirectory <command>config</command>
+of the home directory of the user running the service.
+The plugin factory retuns the concrete implementation configured in
+<command>VOSpace.properties</command>.
+</para>
+</listitem>    
+</orderedlist>
+<para>
+
+<mediaobject>
+<imageobject>
+	<imagedata fileref="./images/VOS_Backend_ClassDiagram2.png"  format="PNG" /> 
+</imageobject>
+</mediaobject>
+
+</para>
+
+</section>
+
+<section id="sec-general_functionality_description">
+	<title>General functionality description</title>
+
+<para>
+This paragraph is a general description of the functionality of the i
+vospace-backend software module.
+</para>
+<para>
+It is a web service, based on the RESTful architecture, realized using the
+<ulink url="https://restlet.com/open-source">Restlet Framework</ulink>
+At present, the VOSpaceBackendResource implements the GET and PUT operations
+only. 
+</para>
+<para>
+The functionality of PUT operation is based on the following steps:
+</para>
+<itemizedlist>
+
+<listitem>
+<para>
+Reads the request input parameters:
+</para>
+    <itemizedlist>
+      <listitem>
+<para>
+        "jobid"
+</para>
+      </listitem>
+      <listitem>
+<para>
+        "parameters" contains the encoded vosuri of the VOSpace Node relative
+to the operation. This parameter has to be decoded. It is originally
+encoded for security reasons.
+</para>
+      </listitem>
+    </itemizedlist>
+  </listitem>
+<listitem>
+<para>
+Downloads the input file associated with the request putting it in a temporary
+area with a unique id as name and calculates its md5 checksum
+</para>
+</listitem>
+<listitem>
+<para>
+Stores the received file:
+</para>
+    <itemizedlist>
+      <listitem>
+<para>
+        initializes the Node metadata in the VOSpace interface backend
+</para>
+      </listitem>
+      <listitem>
+<para>
+        creates an entry in the vospace-backend database to store the 
+        relation between the Node identifier and the stored file identifier
+</para>
+      </listitem>
+      <listitem>
+<para>
+        move the received file from the temporary area to the final 
+        storage area. This is the only operation specific of the 
+        adopted storage solution
+</para>
+      </listitem>
+    </itemizedlist>
+</listitem>
+<listitem>
+<para>
+Updates the job status.
+</para>
+</listitem>
+</itemizedlist>
+
+
+</section>
+
+
+</chapter>
+

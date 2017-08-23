@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "oats_vospace-backend_devel_guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-intro">
+	<title>Introduction</title>
+
+	<para>
+The <ulink url="http://www.ivoa.net/documents/VOSpace/20150601/VOSpace.pdf">
+"VOSpace, Version 2.1"</ulink> says: 
+"A VOSpace web service is an access point for a distributed storage 
+network. Through this access point, a client can:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+add or delete data objects
+</para>
+</listitem>
+<listitem>
+<para>
+manipulate metadata for the data objects
+</para>
+</listitem>
+<listitem>
+<para>
+obtain URIs through which the content of the data objects can be
+accessed
+</para>
+</listitem>
+</itemizedlist>
+<para>
+VOSpace does not define how the data is stored or transferred, only the
+control messages to gain access. Thus, the VOSpace interface can readily be
+added to an existing storage system.
+When we speak of “a VOSpace”, we mean the arrangement of data 
+accessible through one particular VOSpace service."
+</para>
+<para>
+The vospace-backend is a storage service management to 
+integrate a VOSpace interface implementation with
+a storage solution. This software module persists the
+information linking a VOSpace Node Identifier with a
+vospace backend stored file, so it is able to return URIs to 
+access the content of the data objects. 
+        </para>
+        <para>
+The storage solution can
+be changed thanks to a plug-in architecture allowing to
+plug-in at run time different storage solutions simply implementing 
+an abstract java class.
+	</para>
+	<para>
+The service requires an SQL Resource DataBase Management Service (RDBMS)  
+as default built-in persistence layer.
+        </para>
+        <para>
+vospace-backend provides a RESTful interface.
+        </para>
+
+
+</chapter>
+

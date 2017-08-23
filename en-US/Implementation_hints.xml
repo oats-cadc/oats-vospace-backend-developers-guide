@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "oats_vospace-backend_devel_guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-add_new_storage">
+	<title>How to add a new storage solution support</title>
+	<para>
+		The vospace-backend software is designed to be extended 
+to support more storage solutions implementing new plug-ins.
+	</para>
+        <para>
+                This chapter explains how to write a new plug-in.
+        </para>
+
+<section id="sec-storage_srv_implementation_howto">
+        <title>How to write a new plug-in</title>
+
+<para>
+Reading the architecture, it is clear that a new plug-in is a java class 
+extending VOSpaceBackend.java, which means implementing the two methods 
+of the VOSpaceBackendInterface.java:
+</para>
+<screen>
+public void fileFromTmpToFinalStorageArea(String storedFileID, String md5_sum)
+public String fileFromStorageAreaToTmp(String vosuri, String storedFileID)
+</screen>  
+
+</section>
+
+</chapter>
+

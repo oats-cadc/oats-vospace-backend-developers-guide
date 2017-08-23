@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE bookinfo PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "oats_vospace-backend_devel_guide.ent">
+%BOOK_ENTITIES;
+]>
+<bookinfo id="book-vospace-backend_devel_guide">
+	<title>oats_vospace-backend_devel_guide</title>
+	<subtitle></subtitle>
+        <productname>VOSpace Backend Service Developers Guide</productname>
+         <productnumber>1.0</productnumber>
+         <edition>1</edition>
+         <pubsnumber>1</pubsnumber>
+<abstract>
+
+<para>
+This guide gives software description and some development hints to
+meke easier to developers to add new storage solutions to their
+VOSpace service. 
+</para>
+
+</abstract>
+	<corpauthor>
+		<inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="Common_Content/images/title_logo.svg" format="SVG" />
+			</imageobject>
+		</inlinemediaobject>
+	</corpauthor>
+<!--
+	<xi:include href="Common_Content/Legal_Notice.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+-->
+	<xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</bookinfo>
+
